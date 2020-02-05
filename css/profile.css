@@ -1,0 +1,54 @@
+.content {
+    position: absolute;
+    height: 100vh;
+    width: 100%;
+
+    /* background-color: red; */
+}
+
+.parent-row {
+    height: 100vh;
+    width: 100%;
+}
+
+.user-detail-container {
+    position: absolute;
+    height: 100%;
+    /* background-image: url('appPhotos/profile-bg.jpg'); */
+    background-size: cover;
+
+
+}
+
+.user-post-container {
+    position: relative;
+    height: 100%;
+}
+
+.post-container {
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+    /* Remove scrollbar space */
+    background: transparent;
+    /* Optional: just make scrollbar invisible */
+}
+
+
+.navigation-bar {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+
+    padding: 50px;
+    font-size: 20px;
+
+}
+.user-comment{
+    position: absolute;
+    height: 50px;
+}
