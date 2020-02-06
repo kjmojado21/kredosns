@@ -3,7 +3,7 @@ include 'userAction.php';
 $currentUserID = $_SESSION['login_id'];
 $currentUser = $UserClass->getOneUser($currentUserID);
 $followedPosts = $UserClass->getFollowedUserPosts($currentUserID);
-// $currentUserPosts = $UserClass->getUserPosts($currentUserID);
+$currentUserPosts = $UserClass->getUserPosts($currentUserID);
 // print_r($followedPosts);
 ?>
 <!doctype html>
@@ -66,7 +66,7 @@ $followedPosts = $UserClass->getFollowedUserPosts($currentUserID);
             <div class="col-lg-12">
                 <?php
                 if ($followedPosts == FALSE) {
-                    echo "<div class = 'alert alert-warning'>I see no posts here.. Try Following a user or post your first one !</div>";
+                    echo "<div class = 'alert alert-warning'>I see no other user's posts here.. Try Following another user  !</div>";
                 } else {
                     foreach ($followedPosts as $post) {
                         $img = $post['user_img'];
@@ -103,6 +103,52 @@ $followedPosts = $UserClass->getFollowedUserPosts($currentUserID);
 
                 <?php
                         }
+                    }
+                }
+
+                ?>
+                <?php
+                if (!empty($currentUserPosts)) {
+                    foreach ($currentUserPosts as $row) {
+                        $img = $row['user_img'];
+                        if (empty($row['post_image'])) {
+
+                ?>
+                            <div class="card mt-3" style="height: 400px;">
+                                <div class="card-header">
+                                    <img src="uploads/<?php echo $img ?>" class="img-thumbnail img-fluid rounded-circle" style="height: 100px; width:100px;" alt=""> <?php echo $row['user_fullname'] ?>
+                                </div>
+                                <div class="card-body bg-dark text-light">
+                                    <h1 class="display-2 text-center p-5">
+                                        <?php echo $row['post_content'] ?>
+                                    </h1>
+                                </div>
+                            </div>
+
+                        <?php
+                        } else {
+                        ?>
+                            <div class="card mt-3">
+                                <div class="card-header">
+                                    <img src="uploads/<?php echo $img ?>" class="img-thumbnail img-fluid rounded-circle" style="height: 100px; width:100px;" alt=""> <?php echo $row['user_fullname'] ?>
+                                </div>
+                                <div class="card-body bg-dark text-light p-5">
+                                    <h1 class="display-2 text-center mt-5">
+                                        <?php echo $row['post_content'] ?>
+                                    </h1>
+                                    <?php $postImg = $row['post_image'] ?>
+                                    <img src="postImages/<?php echo $postImg ?>" style="width: 100%;" class="img-fluid img-thumbnail" alt="">
+
+                                </div>
+                            </div>
+
+
+                        <?php
+                        }
+                        ?>
+
+
+                <?php
                     }
                 }
 
