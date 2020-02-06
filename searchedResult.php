@@ -31,51 +31,62 @@ if ($searchedUser != FALSE) {
                 </div>
             </div>
             <div class="row mt-5">
-                <?php
-                foreach ($searchedUser as $row) :
-                    $randomID = $row['user_id'];
-                    $userImg = $row['user_img'] ?>
-                    <div class="card w-25 float-left mr-2 mt-3">
-                        <div class="card-body">
-                            <img src="uploads/<?php echo $userImg ?>" class="card-img-top" alt="">
-                            <p class="lead mt-3" style="letter-spacing: 0.2em"><?php echo $row['user_fullname'] ?></p>
-                        </div>
+                <div class="col-lg-12">
+                    <?php
+                    foreach ($searchedUser as $row) :
+                        $randomID = $row['user_id'];
+                        $userImg = $row['user_img'];
+                        if ($_SESSION['login_id'] != $randomID) {
+
+                    ?>
+
+                            <div class="card w-25 float-left mr-2 mt-3">
+                                <div class="card-body">
+                                    <img src="uploads/<?php echo $userImg ?>" class="card-img-top" alt="">
+                                    <p class="lead mt-3" style="letter-spacing: 0.2em"><?php echo $row['user_fullname'] ?></p>
+                                </div>
+
+                                <?php
+                                $rs = $UserClass->validateUserRelationship($_SESSION['login_id'], $randomID);
+                                // echo $rs;
+                                if ($rs == 'follow') { ?>
+                                    <div class="follow-button p-2">
+                                        <form action="userAction.php" method="post">
+                                            <input type="hidden" value="<?php echo $row['user_id'] ?>" name="followed_user_id">
+                                            <input type="hidden" value="<?php echo $_SESSION['login_id'] ?>" name="user_id">
+                                            <button type="submit" name="follow_user" class="btn btn-outline-info">Follow User</button>
+                                        </form>
+                                    </div>
+                                <?php  } else {
+                                ?>
+                                    <div class="follow-button p-2">
+                                        <form action="userAction.php" method="post">
+                                            <input type="hidden" value="<?php echo $row['user_id'] ?>" name="followed_user_id">
+                                            <input type="hidden" value="<?php echo $_SESSION['login_id'] ?>" name="user_id">
+                                            <button type="submit" name="unfollow" class="btn btn-outline-info">Unfollow</button>
+                                        </form>
+                                    </div>
+
+                                <?php
+
+                                }
+
+                                ?>
+
+                            </div>
 
                         <?php
-                        $rs = $UserClass->validateUserRelationship($_SESSION['login_id'], $randomID);
-                        // echo $rs;
-                        if ($rs == 'follow') { ?>
-                            <div class="follow-button p-2">
-                                <form action="userAction.php" method="post">
-                                    <input type="hidden" value="<?php echo $row['user_id'] ?>" name="followed_user_id">
-                                    <input type="hidden" value="<?php echo $_SESSION['login_id'] ?>" name="user_id">
-                                    <button type="submit" name="follow_user" class="btn btn-outline-info">Follow User</button>
-                                </form>
-                            </div>
-                        <?php  } else {
-                        ?>
-                            <div class="follow-button p-2">
-                                <form action="userAction.php" method="post">
-                                    <input type="hidden" value="<?php echo $row['user_id'] ?>" name="followed_user_id">
-                                    <input type="hidden" value="<?php echo $_SESSION['login_id'] ?>" name="user_id">
-                                    <button type="submit" name="unfollow" class="btn btn-outline-info">Unfollow</button>
-                                </form>
-                            </div>
-
-                        <?php
-
-                        }
-
+                        } 
                         ?>
 
-                    </div>
+                           
+                    <?php
+                        
+                    endforeach;
+                    ?>
+                </div>
 
-                <?php
-                endforeach;
-                ?>
             </div>
-
-
         </div>
 
 
